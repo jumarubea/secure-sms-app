@@ -6,10 +6,7 @@ import '../providers/message_provider.dart';
 class MessageDetailScreen extends StatelessWidget {
   final Message message;
 
-  const MessageDetailScreen({
-    super.key,
-    required this.message,
-  });
+  const MessageDetailScreen({super.key, required this.message});
 
   @override
   Widget build(BuildContext context) {
@@ -19,54 +16,57 @@ class MessageDetailScreen extends StatelessWidget {
         actions: [
           PopupMenuButton<String>(
             onSelected: (value) {
-              final messageProvider = Provider.of<MessageProvider>(context, listen: false);
+              final messageProvider = Provider.of<MessageProvider>(
+                context,
+                listen: false,
+              );
               switch (value) {
                 case 'mark_legitimate':
-                  messageProvider.moveMessage(message.id, MessageType.legitimate);
+                  messageProvider.moveMessage(
+                    message.id,
+                    MessageType.legitimate,
+                  );
                   Navigator.pop(context);
                   break;
                 case 'mark_spam':
                   messageProvider.moveMessage(message.id, MessageType.spam);
                   Navigator.pop(context);
                   break;
-                case 'mark_phishing':
-                  messageProvider.moveMessage(message.id, MessageType.phishing);
-                  Navigator.pop(context);
-                  break;
               }
             },
-            itemBuilder: (context) => [
-              const PopupMenuItem(
-                value: 'mark_legitimate',
-                child: Row(
-                  children: [
-                    Icon(Icons.check_circle, color: Colors.green),
-                    SizedBox(width: 8),
-                    Text('Mark as Legitimate'),
-                  ],
-                ),
-              ),
-              const PopupMenuItem(
-                value: 'mark_spam',
-                child: Row(
-                  children: [
-                    Icon(Icons.warning, color: Colors.orange),
-                    SizedBox(width: 8),
-                    Text('Mark as Spam'),
-                  ],
-                ),
-              ),
-              const PopupMenuItem(
-                value: 'mark_phishing',
-                child: Row(
-                  children: [
-                    Icon(Icons.security, color: Colors.red),
-                    SizedBox(width: 8),
-                    Text('Mark as Phishing'),
-                  ],
-                ),
-              ),
-            ],
+            itemBuilder:
+                (context) => [
+                  const PopupMenuItem(
+                    value: 'mark_legitimate',
+                    child: Row(
+                      children: [
+                        Icon(Icons.check_circle, color: Colors.green),
+                        SizedBox(width: 8),
+                        Text('Mark as Legitimate'),
+                      ],
+                    ),
+                  ),
+                  const PopupMenuItem(
+                    value: 'mark_spam',
+                    child: Row(
+                      children: [
+                        Icon(Icons.warning, color: Colors.orange),
+                        SizedBox(width: 8),
+                        Text('Mark as Spam'),
+                      ],
+                    ),
+                  ),
+                  const PopupMenuItem(
+                    value: 'mark_phishing',
+                    child: Row(
+                      children: [
+                        Icon(Icons.security, color: Colors.red),
+                        SizedBox(width: 8),
+                        Text('Mark as Phishing'),
+                      ],
+                    ),
+                  ),
+                ],
           ),
         ],
       ),
@@ -81,9 +81,7 @@ class MessageDetailScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 color: _getTypeColor().withOpacity(0.1),
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: _getTypeColor().withOpacity(0.3),
-                ),
+                border: Border.all(color: _getTypeColor().withOpacity(0.3)),
               ),
               child: Row(
                 children: [
@@ -99,7 +97,10 @@ class MessageDetailScreen extends StatelessWidget {
                   if (message.isVerified) ...[
                     const Spacer(),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.blue.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(12),
@@ -126,9 +127,9 @@ class MessageDetailScreen extends StatelessWidget {
             const SizedBox(height: 24),
             Text(
               'From: ${message.sender}',
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             Text(
@@ -140,9 +141,9 @@ class MessageDetailScreen extends StatelessWidget {
             const SizedBox(height: 24),
             Text(
               'Message:',
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 12),
             Container(
@@ -160,7 +161,7 @@ class MessageDetailScreen extends StatelessWidget {
                 style: Theme.of(context).textTheme.bodyLarge,
               ),
             ),
-            if (message.type == MessageType.phishing) ...[
+            if (message.type == MessageType.spam) ...[
               const SizedBox(height: 24),
               Container(
                 width: double.infinity,
@@ -178,7 +179,7 @@ class MessageDetailScreen extends StatelessWidget {
                         Icon(Icons.warning, color: Colors.red),
                         SizedBox(width: 8),
                         Text(
-                          'Phishing Alert',
+                          'Spam Alert',
                           style: TextStyle(
                             color: Colors.red,
                             fontWeight: FontWeight.bold,
@@ -188,7 +189,7 @@ class MessageDetailScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     const Text(
-                      'This message has been identified as a phishing attempt. Do not click any links or provide personal information.',
+                      'This message has been identified as spam. Do not click any links or provide personal information.',
                       style: TextStyle(color: Colors.red),
                     ),
                     const SizedBox(height: 12),
@@ -224,8 +225,6 @@ class MessageDetailScreen extends StatelessWidget {
         return Colors.green;
       case MessageType.spam:
         return Colors.orange;
-      case MessageType.phishing:
-        return Colors.red;
     }
   }
 
@@ -235,8 +234,6 @@ class MessageDetailScreen extends StatelessWidget {
         return Icons.check_circle;
       case MessageType.spam:
         return Icons.warning;
-      case MessageType.phishing:
-        return Icons.security;
     }
   }
 
@@ -246,8 +243,6 @@ class MessageDetailScreen extends StatelessWidget {
         return 'Legitimate Message';
       case MessageType.spam:
         return 'Spam Message';
-      case MessageType.phishing:
-        return 'Phishing Attempt';
     }
   }
 

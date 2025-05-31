@@ -1,4 +1,4 @@
-enum MessageType { legitimate, spam, phishing }
+enum MessageType { legitimate, spam }
 
 class Message {
   final String id;

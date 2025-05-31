@@ -7,10 +7,7 @@ import '../screens/message_detail_screen.dart';
 class MessageItem extends StatelessWidget {
   final Message message;
 
-  const MessageItem({
-    super.key,
-    required this.message,
-  });
+  const MessageItem({super.key, required this.message});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +26,10 @@ class MessageItem extends StatelessWidget {
         child: const Icon(Icons.warning, color: Colors.white),
       ),
       onDismissed: (direction) {
-        final messageProvider = Provider.of<MessageProvider>(context, listen: false);
+        final messageProvider = Provider.of<MessageProvider>(
+          context,
+          listen: false,
+        );
         if (direction == DismissDirection.startToEnd) {
           messageProvider.moveMessage(message.id, MessageType.legitimate);
           ScaffoldMessenger.of(context).showSnackBar(
@@ -45,11 +45,7 @@ class MessageItem extends StatelessWidget {
       child: ListTile(
         leading: CircleAvatar(
           backgroundColor: _getTypeColor().withOpacity(0.1),
-          child: Icon(
-            _getTypeIcon(),
-            color: _getTypeColor(),
-            size: 20,
-          ),
+          child: Icon(_getTypeIcon(), color: _getTypeColor(), size: 20),
         ),
         title: Row(
           children: [
@@ -57,7 +53,8 @@ class MessageItem extends StatelessWidget {
               child: Text(
                 message.sender,
                 style: TextStyle(
-                  fontWeight: message.isRead ? FontWeight.normal : FontWeight.bold,
+                  fontWeight:
+                      message.isRead ? FontWeight.normal : FontWeight.bold,
                 ),
               ),
             ),
@@ -117,8 +114,10 @@ class MessageItem extends StatelessWidget {
           ],
         ),
         onTap: () {
-          Provider.of<MessageProvider>(context, listen: false)
-              .markAsRead(message.id);
+          Provider.of<MessageProvider>(
+            context,
+            listen: false,
+          ).markAsRead(message.id);
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -136,8 +135,6 @@ class MessageItem extends StatelessWidget {
         return Colors.green;
       case MessageType.spam:
         return Colors.orange;
-      case MessageType.phishing:
-        return Colors.red;
     }
   }
 
@@ -147,8 +144,6 @@ class MessageItem extends StatelessWidget {
         return Icons.check_circle;
       case MessageType.spam:
         return Icons.warning;
-      case MessageType.phishing:
-        return Icons.security;
     }
   }
 

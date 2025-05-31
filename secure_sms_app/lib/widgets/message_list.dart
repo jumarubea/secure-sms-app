@@ -7,26 +7,20 @@ import 'message_item.dart';
 class MessageList extends StatelessWidget {
   final MessageType messageType;
 
-  const MessageList({
-    super.key,
-    required this.messageType,
-  });
+  const MessageList({super.key, required this.messageType});
 
   @override
   Widget build(BuildContext context) {
     return Consumer<MessageProvider>(
       builder: (context, messageProvider, child) {
         List<Message> messages;
-        
+
         switch (messageType) {
           case MessageType.legitimate:
             messages = messageProvider.inboxMessages;
             break;
           case MessageType.spam:
             messages = messageProvider.spamMessages;
-            break;
-          case MessageType.phishing:
-            messages = messageProvider.phishingMessages;
             break;
         }
 
@@ -38,13 +32,17 @@ class MessageList extends StatelessWidget {
                 Icon(
                   _getEmptyIcon(),
                   size: 64,
-                  color: Theme.of(context).colorScheme.onSurface.withOpacity(0.3),
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.onSurface.withOpacity(0.3),
                 ),
                 const SizedBox(height: 16),
                 Text(
                   _getEmptyMessage(),
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSurface.withOpacity(0.6),
                   ),
                 ),
               ],
@@ -68,8 +66,6 @@ class MessageList extends StatelessWidget {
         return Icons.inbox;
       case MessageType.spam:
         return Icons.warning;
-      case MessageType.phishing:
-        return Icons.security;
     }
   }
 
@@ -79,8 +75,6 @@ class MessageList extends StatelessWidget {
         return 'No messages in inbox';
       case MessageType.spam:
         return 'No spam messages';
-      case MessageType.phishing:
-        return 'No phishing messages detected';
     }
   }
 }

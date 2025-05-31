@@ -5,7 +5,18 @@ import 'providers/theme_provider.dart';
 import 'providers/message_provider.dart';
 
 void main() {
-  runApp(const SecureMessagingApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  final messageProvider = MessageProvider();
+  messageProvider.initSmsListener();
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider(create: (_) => messageProvider),
+      ],
+      child: const SecureMessagingApp(),
+    ),
+  );
 }
 
 class SecureMessagingApp extends StatelessWidget {
